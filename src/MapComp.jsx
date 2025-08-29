@@ -1,8 +1,4 @@
 import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps";
-import { useRef } from "react";
-import { useCallback } from "react";
-
-const googleProps = ['marker']
 
 const MapComp = ({mapMarker}) => {
 
