@@ -4,8 +4,9 @@ import MapComp from "./MapComp"
 const App = () => {
 
     const [place, setPlace] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
     const [newPlace, setNewPlace] = useState({});
+    const [suggestions, setSuggestions] = useState([]);
+    const [marker, setMarker] = useState(null);
 
     useEffect(() => {
         if (!place) {
@@ -34,22 +35,16 @@ const App = () => {
         );
 
         const result = await response.json();
-        console.log(result);
+        setMarker({
+            lat: result.location.latitude,
+            lng: result.location.longitude
+        })
     }
 
     const POSTreq = async ()  => {
 
         const data = {
-            "input": place,
-            "locationBias": {
-                "circle": {
-                    "center": {
-                        "latitude": 37.7937,
-                        "longitude": -122.3965
-                    },
-                "radius": 500.0
-                }
-            }
+            "input": place
         }
 
         try{
@@ -111,7 +106,7 @@ const App = () => {
                 <span>{newPlace.placePrediction?.structuredFormat?.mainText?.text}</span>
             </div>
             <div className="mt-4 h-96 w-full rounded overflow-hidden">
-                <MapComp />
+                <MapComp mapMarker={marker}/>
             </div>
         </>
     )
