@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import MapComp from "./MapComp"
 
 const App = () => {
 
@@ -78,36 +79,27 @@ const App = () => {
 
     return (
         <>
-            <div style={{ position: 'relative', width: '300px' }}>
+            <div className="relative w-72">
                 <input
                     type="text"
                     aria-autocomplete="list"
                     aria-expanded={true}
                     aria-controls="suggestion-list"
                     onChange={(e) => {setPlace(e.target.value)}}
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {suggestions.length > 0 && (
                     <ul
                         id="suggestion-list"
                         role="listbox"
-                        style={{
-                            position: 'absolute',
-                            top: '100%',
-                            left: 0,
-                            right: 0,
-                            background: 'white',
-                            border: '1px solid #ccc',
-                            maxHeight: '200px',
-                            overflowY: 'auto',
-                            zIndex: 1000,
-                        }}
+                        className="absolute left-0 right-0 bg-white border border-gray-300 mt-1 max-h-48 overflow-y-auto z-20 rounded"
                         >
                         {suggestions.map((sug, index) => (
                             <li
                             key={index}
                             role="option"
                             onClick={() => handleSelect(sug)}
-                            style={{ padding: '8px', cursor: 'pointer' }}
+                            className="px-2 py-2 hover:bg-gray-100 cursor-pointer"
                             >
                                 {sug.placePrediction?.text?.text}
                             </li>
@@ -115,8 +107,11 @@ const App = () => {
                     </ul>
                 )}
             </div>
-            <div>
+            <div className="mt-2 text-gray-700">
                 <span>{newPlace.placePrediction?.structuredFormat?.mainText?.text}</span>
+            </div>
+            <div className="mt-4 h-96 w-full rounded overflow-hidden">
+                <MapComp />
             </div>
         </>
     )
