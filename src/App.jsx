@@ -4,6 +4,7 @@ const App = () => {
 
     const [place, setPlace] = useState('');
     const [suggestions, setSuggestions] = useState([]);
+    const [newPlace, setNewPlace] = useState({});
 
     useEffect(() => {
         if (!place) {
@@ -12,6 +13,28 @@ const App = () => {
         }
         POSTreq();
     }, [place])
+
+    const handleSelect = async (selectedPlace) => {
+        setNewPlace(selectedPlace);
+        setPlace('');
+        setSuggestions([]);
+
+        const placeId = selectedPlace.placePrediction.placeId;
+
+        const response = await fetch( `https://places.googleapis.com/v1/places/${placeId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Goog-Api-Key": import.meta.env.VITE_GOOGLE_API_KEY,
+                    "X-Goog-FieldMask": "location"
+                },
+            }
+        );
+
+        const result = await response.json();
+        console.log(result);
+    }
 
     const POSTreq = async ()  => {
 
@@ -41,6 +64,7 @@ const App = () => {
             const result = await response.json();
             if (result.suggestions){
                 setSuggestions(result.suggestions)
+                console.log(result.suggestions);
             } else{
                 setSuggestions([])
             }
@@ -82,7 +106,7 @@ const App = () => {
                             <li
                             key={index}
                             role="option"
-                            onClick={() => handleSelect(s)}
+                            onClick={() => handleSelect(sug)}
                             style={{ padding: '8px', cursor: 'pointer' }}
                             >
                                 {sug.placePrediction?.text?.text}
@@ -90,6 +114,9 @@ const App = () => {
                         ))}
                     </ul>
                 )}
+            </div>
+            <div>
+                <span>{newPlace.placePrediction?.structuredFormat?.mainText?.text}</span>
             </div>
         </>
     )
