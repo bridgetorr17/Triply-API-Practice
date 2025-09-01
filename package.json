@@ -19,11 +19,11 @@
   "homepage": "https://github.com/bridgetorr17/Google-Maps-API-Practice#readme",
   "description": "",
   "dependencies": {
-    "@react-google-maps/api": "^2.20.7",
     "@tailwindcss/vite": "^4.1.12",
-    "@vis.gl/react-google-maps": "^1.5.5",
+    "leaflet": "^1.9.4",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.0.2",

@@ -1,28 +1,25 @@
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useRef } from "react";
-import { useCallback } from "react";
+import "leaflet/dist/leaflet.css"
 
-const MapComp = () => {
-    const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-    });
-
-    const mapRef = useRef();
-    const onMapLoad = useCallback((map) => {
-        mapRef.current = map;
-    }, [])
-
-    if (loadError) return <div>Error loading maps</div>;
-    if (!isLoaded) return <div>Loading Maps...</div>;
-
-    return ( isLoaded ?
-        <GoogleMap
-            mapContainerStyle={{ width: '50vw', height: '50vw' }}
-            center={{ lat: 37.7749, lng: -122.4194 }} // Example: San Francisco
-            zoom={12}
-            onLoad={onMapLoad}
-        />
-        : <div>Loading...</div>
+const MapComp = ({place, coordinates}) => {
+    const mapRef = useRef(null);
+    console.log(`the coordinates are ${coordinates}`)
+    return (
+        <MapContainer
+            center={coordinates}
+            zoom={13}
+            ref={mapRef}
+            style={{height:"100vh", width: "100vw"}}>
+                <TileLayer 
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                    <Marker position={coordinates}> 
+                        <Popup>
+                            {place.placePrediction?.structuredFormat?.mainText?.text}
+                        </Popup>
+                    </Marker>
+        </MapContainer>
     )
 }
 
