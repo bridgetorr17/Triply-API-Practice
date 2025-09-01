@@ -7,6 +7,7 @@ const App = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [newPlace, setNewPlace] = useState({});
     const [coords, setCoords] = useState([51.505, -0.09])
+    const [markers, setMarkers] = useState([])
 
     useEffect(() => {
         if (!place) {
@@ -36,6 +37,10 @@ const App = () => {
 
         const result = await response.json();
         setCoords([result.location.latitude, result.location.longitude]);
+        setMarkers(prev => [...prev, {
+            place: selectedPlace.placePrediction?.structuredFormat?.mainText?.text,
+            latitude: result.location.latitude, 
+            longitude: result.location.longitude}])
         console.log(`the new place is ${selectedPlace.placePrediction?.structuredFormat?.mainText?.text}, and it's coordinates are ${result.location.latitude}`);
     }
 
@@ -116,7 +121,8 @@ const App = () => {
                 <div className="mt-4 h-96 w-full rounded overflow-hidden">
                     <MapComp 
                         place={newPlace}
-                        coordinates={coords}/>
+                        coordinates={coords}
+                        pins={markers}/>
                 </div>
             </div>
         </>
