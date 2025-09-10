@@ -14,7 +14,7 @@ const Recenter = ({coords}) => {
     return null
 }
 
-const MapComp = ({place, coordinates, pins}) => {
+const MapComp = ({coordinates, setCoordinates, pins}) => {
     const mapRef = useRef(null);
     console.log(`the coordinates are ${coordinates}`)
     return (

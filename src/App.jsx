@@ -119,9 +119,9 @@ const App = () => {
                     <span>{newPlace.placePrediction?.structuredFormat?.mainText?.text}</span>
                 </div>
                 <div className="mt-4 h-96 w-full rounded overflow-hidden">
-                    <MapComp 
-                        place={newPlace}
+                    <MapComp
                         coordinates={coords}
+                        setCoordinates={setCoords}
                         pins={markers}/>
                 </div>
             </div>
