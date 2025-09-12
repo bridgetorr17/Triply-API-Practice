@@ -1,7 +1,8 @@
 const App = () => {
+    let displayMessage = '';
 
-    const backendTest = async () => {
-        const message = 'message to the backend'
+    const sendEmail = async () => {
+        console.log('trying to send an email, starting in the frontend')
 
         const res = await fetch ('http://localhost:8000/', {
             method: 'POST',
@@ -9,19 +10,18 @@ const App = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({mess: message})
+            body: JSON.stringify({mess: "hello!"})
         })
 
         const result = await res.json();
-        console.log(result.message);
+        //displayMessage = result.message();
+        console.log(result);
     }
     
-    backendTest();
-    console.log('just called the backend test')
-
     return (
         <>
-         <span>hello</span>
+            <button onClick={sendEmail}>Send an email</button>
+            <span>{displayMessage}</span>
         </>
     )
 }
