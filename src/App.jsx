@@ -1,27 +1,30 @@
 const App = () => {
-    let displayMessage = '';
 
-    const sendEmail = async () => {
-        console.log('trying to send an email, starting in the frontend')
+    const share = async () => {
+        if (!navigator.share){
+            alert('sharing not supported on this browser')
+            return;
+        }
 
-        const res = await fetch ('http://localhost:8000/', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({mess: "hello!"})
-        })
-
-        const result = await res.json();
-        //displayMessage = result.message();
-        console.log(result);
+        try{
+            await navigator.share({
+                title: 'Share triply',
+                text: 'Check out triply',
+                url: 'https://triplytravel.vercel.app'
+            });
+            console.log('shared successfully');
+        }
+        catch(err) {
+            console.error('sharing failed', err)
+        }
     }
     
     return (
         <>
-            <button onClick={sendEmail}>Send an email</button>
-            <span>{displayMessage}</span>
+            <button
+                onClick={share}>
+                Share!
+            </button>
         </>
     )
 }
